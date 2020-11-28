@@ -1,0 +1,183 @@
+#include <iostream>
+//#include <ctime>
+#include<time.h>
+using namespace std;
+
+const int maxN = 100000;
+
+void
+createArray(int arr[], int n)
+{
+    srand(100);
+    for (int i = 0; i < n; i++)
+    {
+        arr[i] = rand() % 1001;
+    }
+}
+
+
+void
+printArray(int arr[], int n)
+{
+    for (int i = 0; i < n; i++)
+    {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+}
+
+void sortBubble(int arr[], int n)
+{
+    clock_t  stime = clock();
+    bool ok;
+    for (int i = 0; i < n; i++)
+    {
+        ok = true;
+        for (int j = 1; j < n - i + 1; j++)
+        {
+            if (arr[j - 1] < arr[j])
+            {
+                arr[j] += arr[j - 1];
+                arr[j - 1] = arr[j] - arr[j - 1];
+                arr[j] = arr[j] - arr[j - 1];
+                ok = false;
+            }
+
+        }
+        if (ok)
+        {
+            break;
+        }
+
+    }
+    stime = (clock() - stime);
+    cout << "bubble" << endl;
+    cout << "MILIseconds: " << stime<< endl;
+}
+void selectionSort(int array[], int length)
+{
+    clock_t  stime = clock();
+    int i, j, min, minat;
+    for (i = 0; i < (length - 1); i++)
+    {
+        minat = i;
+        min = array[i];
+
+        for (j = i + 1; j < (length); j++)
+        {
+            if (min > array[j])   
+            {
+                minat = j; 
+                min = array[j];
+            }
+        }
+       
+        swap(array[i], array[minat]);
+        
+
+
+
+    }
+    stime = (clock() - stime);
+    cout << "selection" << endl;
+    cout << "MILIseconds: " << stime << endl;
+
+}
+void insertionSort(int arr[], int length)
+{
+    clock_t  stime = clock();
+    
+    int i, key, j;
+    for (i = 1; i < length; i++)
+    {
+        key = arr[i];
+        j = i - 1;
+        while (j >= 0 && arr[j] > key)
+        {
+            arr[j + 1] = arr[j];
+            j = j - 1;
+        }
+        arr[j + 1] = key;
+    }
+
+
+    stime = (clock() - stime);
+    cout << "insertionSort" << endl;
+    cout << "MILIseconds: " << stime << endl;
+}
+
+int partition(int arr[], int low, int high)
+
+{
+    int pivot = arr[high];  
+    int i = (low - 1);
+
+    for (int j = low; j <= high - 1; j++)
+    {
+
+        if (arr[j] <= pivot)
+        {
+            i++;
+            swap(arr[i], arr[j]);
+        }
+    }
+    swap(arr[i + 1], arr[high]);
+    return (i + 1);
+}
+
+
+void quickSort(int arr[], int low, int high)
+{
+    if (low < high)
+    {
+        int pivot = partition(arr, low, high);
+
+
+        quickSort(arr, low, pivot - 1);
+        quickSort(arr, pivot + 1, high);
+    }
+
+}
+
+
+
+
+
+
+
+int main()
+{
+    int A[maxN] = { 0 };
+    int n = 0;
+    cout << "Enter n : ";
+    cin >> n;
+
+
+    //  SELECTION
+   createArray(A, n);
+   selectionSort(A, n);
+   // printArray(A, n);
+
+
+   //BUBBLE
+    createArray(A, n);
+    sortBubble(A, n);
+    // printArray(A, n);
+
+    //insertion
+    createArray(A, n);
+    insertionSort(A, n);
+    // printArray(A, n);
+
+
+    //quickSort
+    createArray(A, n);
+    clock_t  stime = clock();
+    quickSort(A, 0, n - 1);
+    stime = (clock() - stime);
+    cout << "quickSort" << endl;
+    cout << "MILIseconds: " << stime << endl;
+    // printArray(A, n);
+
+    return 0;
+}
